@@ -1443,6 +1443,22 @@ function cpAsk(q){
 
 // Conversation history for multi-turn chat
 const cpHistory=[];
+let cpQuestionCount=0;
+const CP_MAX_QUESTIONS=6;
+
+// Topics that are OFF LIMITS — block before sending to AI
+const BLOCKED_TOPICS=[
+  'love','dating','boyfriend','girlfriend','relationship','romantic','marriage','married','husband','wife','partner','crush','sex','hook','personal life','family','parents','siblings','brother','sister','mom','dad','mother','father',
+  'weakness','flaw','bad at','struggle','problem with','imposter','anxiety','depression','mental','therapy','insecure','burnout','workaholic','perfectionist','salary','money','earn','pay','income','net worth',
+  'religion','politics','opinion on','what do you think about','who do you support','vote','believe in',
+  'dirt','secret','gossip','bad','negative','worst','hate','dislike','fault','failure','mistake',
+  'age','weight','height','appearance','looks','attractive','pretty','beautiful','ugly',
+];
+
+function isOffTopic(msg){
+  const lower = msg.toLowerCase();
+  return BLOCKED_TOPICS.some(t => lower.includes(t));
+}
 
 async function cpSend(){
   const inp=document.getElementById('cppinp');
@@ -1453,6 +1469,36 @@ async function cpSend(){
   if(init) init.style.display='none';
 
   const msgs=document.getElementById('cppmsgs');
+
+  // ── LIMIT: max questions per session ──
+  if(cpQuestionCount >= CP_MAX_QUESTIONS){
+    const uEl=document.createElement('div');
+    uEl.className='msgusr';
+    uEl.innerHTML=`<div class="mbubble">${msg.replace(/[<>&]/g,ch=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[ch]))}</div><div class="mavatar">👤</div>`;
+    msgs.appendChild(uEl);
+    const bEl=document.createElement('div');
+    bEl.className='msgbot';
+    bEl.innerHTML=`<div class="mavatar">🤖</div><div class="mbody"><div class="mname">Sanika's Copilot</div><div class="mbubble">I've answered ${CP_MAX_QUESTIONS} questions — that's my limit for now! 😊 For more, reach Sanika directly at <a href="mailto:dhavansanika@gmail.com" style="color:#4fc1ff">dhavansanika@gmail.com</a></div></div>`;
+    msgs.appendChild(bEl);
+    msgs.scrollTop=msgs.scrollHeight;
+    return;
+  }
+
+  // ── FILTER: block off-topic questions client-side ──
+  if(isOffTopic(msg)){
+    const uEl=document.createElement('div');
+    uEl.className='msgusr';
+    uEl.innerHTML=`<div class="mbubble">${msg.replace(/[<>&]/g,ch=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[ch]))}</div><div class="mavatar">👤</div>`;
+    msgs.appendChild(uEl);
+    const bEl=document.createElement('div');
+    bEl.className='msgbot';
+    bEl.innerHTML=`<div class="mavatar">🤖</div><div class="mbody"><div class="mname">Sanika's Copilot</div><div class="mbubble">I only cover Sanika's professional work — experience, projects, and skills! 😊 Try asking about her tech stack or projects instead.</div></div>`;
+    msgs.appendChild(bEl);
+    msgs.scrollTop=msgs.scrollHeight;
+    return;
+  }
+
+  cpQuestionCount++;
 
   // Add to history
   cpHistory.push({role:'user',content:msg});
