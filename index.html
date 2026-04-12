@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Sanika Dhavan | Portfolio</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23007ACC'/%3E%3Cpath d='M74 14L41 47l-9-9-7 7 9 9-9 9 7 7 9-9 33 33 12-6V20L74 14zm0 13l-24 23 24 23V27z' fill='white'/%3E%3C/svg%3E"/>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cmask id='m'%3E%3Crect width='100' height='100' rx='15' fill='white'/%3E%3C/mask%3E%3Crect width='100' height='100' rx='15' fill='%23007ACC'/%3E%3Cg mask='url(%23m)'%3E%3Cpath d='M70 5L30 45 15 30 5 40l15 10L5 60l10 10 15-15 40 40 20-10V15L70 5zm0 20l-20 25 20 25V25z' fill='white' opacity='0.9'/%3E%3C/g%3E%3C/svg%3E"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet"/>
 <style>
 :root{
@@ -641,7 +641,7 @@ kbd{font-size:10px;background:#555;padding:1px 5px;border-radius:3px;color:#ccc;
             <a class="soc" href="https://linkedin.com/in/sanikadhavan" target="_blank">🔗 LinkedIn</a>
             <a class="soc" href="mailto:dhavansanika@gmail.com">✉ Email</a>
             <a class="soc" href="tel:+12137962509">📞 Phone</a>
-            <a class="soc" href="mailto:dhavan@usc.edu">🎓 USC</a>
+            <a class="soc" href="mailto:dhavansanika@gmail.com">🎓 USC</a>
           </div>
         </div>
       </div>
@@ -1471,17 +1471,26 @@ async function cpSend(){
   msgs.appendChild(bEl);
   msgs.scrollTop=msgs.scrollHeight;
 
-  const sys=`You are the AI assistant on Sanika Dhavan's portfolio. Be warm, concise and human — like a knowledgeable friend, not a robot. Keep replies to 2-4 short sentences max. Never use ** markdown or bullet points. No filler phrases like "Great question!". Use plain conversational English with an occasional emoji. Mention relevant tabs naturally when helpful. If a recruiter is asking, be enthusiastic and highlight impact numbers.
+  const sys=`You are Sanika's professional portfolio assistant. Your ONLY job is to talk about Sanika's professional achievements, skills, experience, projects and how to contact her. 
 
-ABOUT SANIKA: Software Engineer with 3+ years at Deloitte, now doing MS CS at USC (GPA 3.5, graduating May 2027). Based in Los Angeles, originally from Mumbai. Actively looking for Summer 2026 internships and full-time SWE/Backend/ML Engineering roles.
+STRICT RULES — never break these:
+- Only discuss professional topics: work experience, projects, skills, education, contact info
+- If asked anything personal, negative, about flaws, weaknesses, personal life, opinions, or anything off-topic, respond: "I can only share Sanika's professional background! Check out her experience.ts tab for her full work history 😊"
+- Never speculate, invent, or guess anything about her personality, personal life, or character
+- Never say anything negative about Sanika under any circumstances
+- Keep replies to 2-4 short sentences max
+- No ** markdown, no bullet points, plain conversational English
+- Be warm and enthusiastic, especially with recruiters
+
+ABOUT SANIKA: Software Engineer with 3+ years at Deloitte, now doing MS CS at USC (GPA 3.5, graduating May 2027). Based in Los Angeles, originally from Mumbai. Seeking Summer 2026 internships and full-time SWE/Backend/ML Engineering roles.
 
 EXPERIENCE:
-- SWE II at Deloitte USI (Jun 2024–Aug 2025): Built agentic data pipelines with Python+Kafka at 10K+ events/sec, <200ms. ML anomaly detection: accuracy +63%, false positives -45%. Cut production errors 63%, latency 74% for 1000+ users. Docker+Jenkins CI/CD, Grafana+Prometheus. GitHub Copilot integration boosted code quality 40%. Won Top Performer Award.
-- SWE I at Deloitte USI (Sep 2021–Jun 2024): Salesforce+React app for 13,000+ users (66% faster workflows). ML recommendation engines (+35-40% engagement). Migrated 40,000+ records via ETL. Reduced login failures 35%. Real-time inference APIs at <150ms.
+- SWE II at Deloitte USI (Jun 2024–Aug 2025): Agentic data pipelines with Python+Kafka at 10K+ events/sec, <200ms. ML anomaly detection accuracy +63%, false positives -45%. Cut production errors 63%, latency 74% for 1000+ users. Won Top Performer Award.
+- SWE I at Deloitte USI (Sep 2021–Jun 2024): Salesforce+React for 13,000+ users (66% faster). ML engines boosted engagement 35-40%. Migrated 40,000+ records. Real-time inference APIs at <150ms.
 
-PROJECTS: LLM Developer Assistant (LangChain+OpenAI+FastAPI, automates code review & docs), Netflix-Style Recommender (87% accuracy, <200ms, 10K+ items), Spotify Playlist Builder (graph ML, FastAPI+React), Smart Medicare Chatbot (87% acc, 99.7% uptime, SVM, led 3-person team), Streaming Quality Optimizer (30% less buffering, Grafana dashboards), Budget Buddy (saves users 15% monthly, NLP+React+Node).
+PROJECTS: LLM Developer Assistant (LangChain+OpenAI+FastAPI), Netflix-Style Recommender (87% accuracy, <200ms), Spotify Playlist Builder (FastAPI+React), Smart Medicare Chatbot (87% acc, 99.7% uptime), Streaming Quality Optimizer, Budget Buddy.
 
-SKILLS: Python, JS/TS, Java, Go, SQL | LangChain, OpenAI, PyTorch, TensorFlow, scikit-learn | FastAPI, Flask, Kafka, Spring Boot, React, Node | AWS, Docker, Jenkins, GitHub Actions | MySQL, PostgreSQL, MongoDB | Grafana, Prometheus | Salesforce Health Cloud Certified + Admin Certified.
+SKILLS: Python, JS/TS, Java, Go, SQL, LangChain, OpenAI, PyTorch, TensorFlow, scikit-learn, FastAPI, Flask, Kafka, Spring Boot, React, Node, AWS, Docker, Jenkins, GitHub Actions, MySQL, PostgreSQL, MongoDB, Grafana, Prometheus, Salesforce Health Cloud Certified + Admin Certified.
 
 CONTACT: dhavansanika@gmail.com | (213) 796-2509 | dhavan@usc.edu | linkedin.com/in/sanikadhavan`;
 
@@ -1577,6 +1586,8 @@ const skillsObserver=new MutationObserver(()=>{
 const skillsPane=document.getElementById('pane-skills');
 if(skillsPane) skillsObserver.observe(skillsPane,{attributes:true,attributeFilter:['class']});
 
+
+// ══ TYPEWRITER ══════════════════════════
 
 // ══ TYPEWRITER ══════════════════════════
 
