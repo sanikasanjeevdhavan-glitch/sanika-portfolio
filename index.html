@@ -1491,6 +1491,11 @@ CONTACT: dhavansanika@gmail.com | (213) 796-2509 | dhavan@usc.edu | linkedin.com
     {role:'user',content:msg}
   ];
 
+  // Build a single prompt string for the free HF model
+  const fullPrompt = sys + '\n\n' +
+    apiMessages.map(m=> (m.role==='user'? 'User: ' : 'Assistant: ') + m.content).join('\n') +
+    '\nAssistant:';
+
   async function callViaProxy(){
     const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({message:msg,history:cpHistory.slice(0,-1),system:sys})});
@@ -1500,10 +1505,33 @@ CONTACT: dhavansanika@gmail.com | (213) 796-2509 | dhavan@usc.edu | linkedin.com
     return d.text;
   }
 
+  async function callFreeHF(){
+    // Uses Hugging Face free Inference API — no credit card needed
+    // Get a free token at huggingface.co/settings/tokens
+    const HF_TOKEN = window.HF_TOKEN || '';
+    const headers = {'Content-Type':'application/json'};
+    if(HF_TOKEN) headers['Authorization'] = 'Bearer ' + HF_TOKEN;
+    const r = await fetch('https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        inputs: fullPrompt,
+        parameters: {max_new_tokens: 300, temperature: 0.7, return_full_text: false}
+      })
+    });
+    if(!r.ok) throw new Error('hf '+r.status);
+    const d = await r.json();
+    // HF returns array or object
+    const raw = Array.isArray(d) ? d[0]?.generated_text : d?.generated_text;
+    if(!raw) throw new Error('no text');
+    // Clean up — stop at next "User:" if model keeps going
+    return raw.split(/\nUser:/i)[0].trim();
+  }
+
   async function callDirect(){
     const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',
       headers:{'Content-Type':'application/json','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,system:sys,messages:apiMessages})});
+      body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:400,system:sys,messages:apiMessages})});
     if(!r.ok) throw new Error('direct '+r.status);
     const d=await r.json();
     const t=d.content?.[0]?.text;
@@ -1512,10 +1540,15 @@ CONTACT: dhavansanika@gmail.com | (213) 796-2509 | dhavan@usc.edu | linkedin.com
   }
 
   try{
-    // Try proxy first (works on Vercel), then direct (works locally with CORS header)
     let txt;
+    // 1. Try Vercel proxy (when deployed with API key)
+    // 2. Try free Hugging Face (free, no card needed)
+    // 3. Try direct Anthropic (with CORS header)
     try{ txt=await callViaProxy(); }
-    catch{ txt=await callDirect(); }
+    catch{
+      try{ txt=await callFreeHF(); }
+      catch{ txt=await callDirect(); }
+    }
     const btxtEl=document.getElementById(uid);
     const capTxt=txt.charAt(0).toUpperCase()+txt.slice(1);
     if(btxtEl){btxtEl.classList.remove('typ');btxtEl.textContent=capTxt;}
@@ -1525,7 +1558,7 @@ CONTACT: dhavansanika@gmail.com | (213) 796-2509 | dhavan@usc.edu | linkedin.com
     const btxtEl2=document.getElementById(uid);
     if(btxtEl2){
       btxtEl2.classList.remove('typ');
-      btxtEl2.innerHTML=`Copilot works once you deploy to Vercel with an API key! 🚀<br><br>In the meantime, reach Sanika directly:<br>📧 <a href="mailto:dhavansanika@gmail.com" style="color:#4fc1ff">dhavansanika@gmail.com</a><br>🔗 <a href="https://linkedin.com/in/sanikadhavan" target="_blank" style="color:#4fc1ff">linkedin.com/in/sanikadhavan</a>`;
+      btxtEl2.innerHTML=`Hi! I'm still warming up 😊 Reach Sanika directly:<br><br>📧 <a href="mailto:dhavansanika@gmail.com" style="color:#4fc1ff">dhavansanika@gmail.com</a><br>🔗 <a href="https://linkedin.com/in/sanikadhavan" target="_blank" style="color:#4fc1ff">linkedin.com/in/sanikadhavan</a>`;
       btxtEl2.style.fontSize='11.5px';
     }
   }
@@ -1544,6 +1577,8 @@ const skillsObserver=new MutationObserver(()=>{
 const skillsPane=document.getElementById('pane-skills');
 if(skillsPane) skillsObserver.observe(skillsPane,{attributes:true,attributeFilter:['class']});
 
+
+// ══ TYPEWRITER ══════════════════════════
 
 // ══ TYPEWRITER ══════════════════════════
 const TW_PHRASES=[
