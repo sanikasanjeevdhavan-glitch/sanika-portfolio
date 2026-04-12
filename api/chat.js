@@ -8,15 +8,41 @@ export default async function handler(req, res) {
   const { message, history = [], system } = req.body;
   if (!message) return res.status(400).json({ error: 'Message required' });
 
+  const groqKey = process.env.GROQ_API_KEY;
   const anthropicKey = process.env.ANTHROPIC_API_KEY;
-  const hfToken = process.env.HF_TOKEN;
 
-  // ── Option 1: Anthropic (if key set) ──
+  const messages = [
+    ...history.filter(m => m.role && m.content),
+    { role: 'user', content: message }
+  ];
+
+  // Option 1: Groq (free, fast, no credit card needed)
+  if (groqKey) {
+    try {
+      const r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + groqKey,
+        },
+        body: JSON.stringify({
+          model: 'llama-3.1-8b-instant',
+          messages: [
+            { role: 'system', content: system || 'You are a helpful assistant.' },
+            ...messages
+          ],
+          max_tokens: 400,
+          temperature: 0.7,
+        }),
+      });
+      const data = await r.json();
+      const text = data.choices?.[0]?.message?.content;
+      if (r.ok && text) return res.status(200).json({ text });
+    } catch (e) {}
+  }
+
+  // Option 2: Anthropic (if key set)
   if (anthropicKey) {
-    const messages = [
-      ...history.filter(m => m.role && m.content),
-      { role: 'user', content: message }
-    ];
     try {
       const r = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
@@ -37,37 +63,5 @@ export default async function handler(req, res) {
     } catch (e) {}
   }
 
-  // ── Option 2: Hugging Face (free) ──
-  if (hfToken || true) { // try even without token (rate-limited but works)
-    const prompt = (system || '') + '\n\n' +
-      history.filter(m => m.role && m.content)
-        .map(m => (m.role === 'user' ? 'User: ' : 'Assistant: ') + m.content)
-        .join('\n') +
-      '\nUser: ' + message + '\nAssistant:';
-
-    try {
-      const headers = { 'Content-Type': 'application/json' };
-      if (hfToken) headers['Authorization'] = 'Bearer ' + hfToken;
-
-      const r = await fetch(
-        'https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2',
-        {
-          method: 'POST',
-          headers,
-          body: JSON.stringify({
-            inputs: prompt,
-            parameters: { max_new_tokens: 300, temperature: 0.7, return_full_text: false }
-          }),
-        }
-      );
-      const data = await r.json();
-      const raw = Array.isArray(data) ? data[0]?.generated_text : data?.generated_text;
-      if (raw) {
-        const clean = raw.split(/\nUser:/i)[0].trim();
-        return res.status(200).json({ text: clean });
-      }
-    } catch (e) {}
-  }
-
-  return res.status(500).json({ error: 'Could not get a response' });
+  return res.status(500).json({ error: 'No API key configured' });
 }
