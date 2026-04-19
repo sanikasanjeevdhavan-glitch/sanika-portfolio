@@ -5,6 +5,14 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Sanika Dhavan | Portfolio</title>
+<!-- Google Analytics — replace G-XXXXXXXXXX with your Measurement ID from analytics.google.com -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer=window.dataLayer||[];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js',new Date());
+  gtag('config','G-XXXXXXXXXX');
+</script>
 <meta property="og:title" content="Sanika Dhavan | Software Engineer"/>
 <meta property="og:description" content="Software Engineer with 3+ years at Deloitte. MS CS @ USC. Building scalable backend systems and intelligent AI products."/>
 <meta property="og:type" content="website"/>
@@ -401,7 +409,9 @@ kbd{font-size:10px;background:#555;padding:1px 5px;border-radius:3px;color:#ccc;
   /* About */
   .biobox{font-size:12.5px}
   .focusgrid{padding:14px 16px}
-  .fitem{font-size:12px}
+  .fitem{font-size:12px;display:block}
+  .avail-text{font-size:9.5px!important;white-space:normal!important}
+  .fitem>span:first-child{margin-right:6px}
 
   /* Experience */
   .expentry{padding-left:20px}
@@ -753,7 +763,7 @@ kbd{font-size:10px;background:#555;padding:1px 5px;border-radius:3px;color:#ccc;
           <div class="pcmt" style="font-size:16px;font-style:normal;font-weight:500;letter-spacing:.01em;margin-bottom:10px">// hello world !! Welcome to my portfolio</div>
           <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(78,201,176,.1);border:1px solid rgba(78,201,176,.35);padding:5px 14px;border-radius:20px;margin-bottom:18px">
             <span style="width:7px;height:7px;border-radius:50%;background:#4ec9b0;animation:blink 1.5s infinite"></span>
-            <span style="font-size:12px;font-family:var(--mono);color:#4ec9b0;white-space:nowrap">Available for Summer 2026 Internship &amp; Full-Time</span>
+            <span style="font-size:12px;font-family:var(--mono);color:#4ec9b0;white-space:nowrap" class="avail-text">Available for Summer 2026 Internship &amp; Full-Time</span>
           </div>
           <div class="hn1">Sanika</div>
           <div class="hn2" style="margin-bottom:6px">Dhavan
