@@ -221,7 +221,7 @@ kbd{font-size:10px;background:#555;padding:1px 5px;border-radius:3px;color:#ccc;
 
 /* ── PROJECTS ── */
 .pgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media(max-width:800px){.pgrid,.skgrid,.congrid{grid-template-columns:1fr}}
+
 .pc{background:#252526;border:1px solid var(--br);border-radius:6px;padding:20px;display:flex;flex-direction:column;gap:10px;transition:border-color .2s,background .2s}
 .pc:hover{border-color:rgba(0,122,204,.4)}
 .pccats{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
@@ -337,8 +337,95 @@ kbd{font-size:10px;background:#555;padding:1px 5px;border-radius:3px;color:#ccc;
 .cppsend{background:var(--acc);border:none;color:#fff;padding:7px 12px;border-radius:4px;display:flex;align-items:center;justify-content:center;transition:background .15s,opacity .15s}
 .cppsend:hover{background:#0980c8}
 
-@media(max-width:900px){.cpp{display:none!important}.sidebar{width:200px}.page{padding:24px 24px 60px}}
-@media(max-width:640px){.sidebar{display:none!important}.abar{display:none}.page{padding:20px 16px 60px}.hn1,.hn2{font-size:2.5rem}}
+
+
+/* ══════════════════════════════════
+   RESPONSIVE — TABLET (max 900px)
+══════════════════════════════════ */
+@media(max-width:900px){
+  .cpp{display:none!important}
+  .sidebar{width:200px}
+  .page{padding:24px 24px 60px}
+  .pgrid,.skgrid,.congrid{grid-template-columns:1fr}
+  .hn1,.hn2{font-size:clamp(2.8rem,7vw,4.2rem)}
+  .statsbar{gap:12px}
+  .stat{padding:10px 14px}
+  .hbtns{flex-wrap:wrap;gap:8px}
+}
+
+/* ══════════════════════════════════
+   RESPONSIVE — MOBILE (max 640px)
+══════════════════════════════════ */
+@media(max-width:640px){
+  /* Hide VS Code chrome on mobile */
+  .sidebar{display:none!important}
+  .abar{display:none!important}
+  .cpp{display:none!important}
+  .mbar{display:none!important}
+  .crumb{display:none!important}
+  .tabsbar{display:none!important}
+  .terminal{display:none!important}
+  .sbar{font-size:10px;gap:4px;padding:0 8px}
+
+  /* Title bar */
+  .tbar{padding:0 12px}
+  .title-c span{font-size:11px}
+
+  /* Page content */
+  .page{padding:20px 18px 80px}
+  .ptitle{font-size:2.2rem}
+  .pcmt{font-size:12px}
+
+  /* Home */
+  .hn1,.hn2{font-size:clamp(2.6rem,13vw,3.8rem);line-height:1.05}
+  .rbs{gap:6px}
+  .rb{font-size:11px;padding:4px 10px}
+  .hdesc{font-size:12px}
+  .hbtns{flex-direction:column;gap:8px}
+  .hb{justify-content:center;padding:12px}
+  .statsbar{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}
+  .stat{padding:12px 8px}
+  .statn{font-size:1.6rem}
+  .socrow{flex-wrap:wrap;gap:6px}
+  .soc{font-size:11px;padding:5px 10px}
+
+  /* Projects grid */
+  .pgrid{grid-template-columns:1fr!important;gap:12px}
+  .pc{padding:16px}
+
+  /* Skills */
+  .skgrid{grid-template-columns:1fr!important;gap:20px}
+
+  /* Contact */
+  .congrid{grid-template-columns:1fr!important;gap:20px}
+  .clitem{padding:10px 12px}
+
+  /* About */
+  .biobox{font-size:12.5px}
+  .focusgrid{padding:14px 16px}
+  .fitem{font-size:12px}
+
+  /* Experience */
+  .expentry{padding-left:20px}
+  .expdot{left:-7px}
+
+  /* Badges in project cards */
+  .pctags{flex-wrap:wrap;gap:4px}
+  .pctag{font-size:10px;padding:2px 7px}
+
+  /* README chips */
+  .chip{font-size:10px;padding:3px 8px}
+}
+
+/* ══════════════════════════════════
+   RESPONSIVE — SMALL MOBILE (max 400px)
+══════════════════════════════════ */
+@media(max-width:400px){
+  .hn1,.hn2{font-size:2.4rem}
+  .page{padding:16px 14px 80px}
+  .statsbar{grid-template-columns:1fr 1fr}
+}
+
 
 /* ════ ANIMATIONS ════ */
 
