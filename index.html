@@ -34,10 +34,9 @@
 *::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.2)}
 /* ── HIGHLIGHTS: never break mid-phrase ── */
 .biobox span[style*="color"],.biobox strong,
-.fitem strong,.expbuls li strong,
+.fitem strong,
 #pane-readme span[style*="color"],#pane-readme strong,
 #pane-about span[style*="color"],#pane-about strong,
-#pane-exp span[style*="color"],#pane-exp strong,
 #pane-home strong,.hdesc strong{white-space:nowrap}
 
 html,body{height:100%;overflow:hidden}
@@ -271,9 +270,9 @@ kbd{font-size:10px;background:#555;padding:1px 5px;border-radius:3px;color:#ccc;
 .expco{font-size:12.5px;color:var(--acc);font-family:var(--mono);margin-bottom:10px}
 .expdesc{font-size:12px;color:rgba(204,204,204,.8);line-height:1.7;margin-bottom:12px;font-family:var(--mono)}
 .expbuls{list-style:none;padding:0;margin-bottom:12px}
-.expbuls li{font-size:12px;color:rgba(204,204,204,.75);line-height:1.65;padding:2px 0;display:flex;align-items:flex-start;gap:8px;font-family:var(--mono)}
-.expbuls li::before{content:'↗';color:var(--grn);flex-shrink:0;font-size:11px;margin-top:3px}
-.expbuls li strong{color:var(--yel);font-weight:400;white-space:nowrap}
+.expbuls li{font-size:12px;color:rgba(204,204,204,.75);line-height:1.75;padding:4px 0 4px 16px;display:block;font-family:var(--mono);position:relative}
+.expbuls li::before{content:'↗';color:var(--grn);font-size:11px;position:absolute;left:0;top:5px}
+.expbuls li strong{color:var(--yel);font-weight:600}
 .expchips{display:flex;flex-wrap:wrap;gap:5px}
 .expchip{font-size:11px;font-family:var(--mono);padding:2px 9px;border-radius:3px;border:1px solid var(--br);color:var(--dim);background:rgba(255,255,255,.03)}
 
@@ -505,9 +504,10 @@ kbd{font-size:10px;background:#555;padding:1px 5px;border-radius:3px;color:#ccc;
 
 /* Chip hover in readme */
 
-/* ══ MOBILE COPILOT ══ */
+/* ══ MOBILE NAV ══════════════════ */
+.mob-nav{display:none}
 @media(max-width:640px){
-  /* Copilot panel — full screen modal on mobile */
+  /* Copilot full screen on mobile */
   .cpp{
     position:fixed!important;
     top:0!important;right:0!important;bottom:0!important;left:0!important;
@@ -517,22 +517,42 @@ kbd{font-size:10px;background:#555;padding:1px 5px;border-radius:3px;color:#ccc;
   }
   .cpp.on{display:flex!important}
 
-  /* Floating Copilot button */
-  .mob-cp-fab{
+  /* Mobile nav bar */
+  .mob-nav{
     display:flex;
-    position:fixed;bottom:20px;right:20px;z-index:9997;
-    background:var(--acc);color:#fff;border:none;border-radius:50px;
-    padding:12px 18px;gap:8px;align-items:center;
-    font-family:var(--sans);font-size:13px;font-weight:600;
-    box-shadow:0 4px 20px rgba(0,122,204,.5);
-    transition:transform .15s,box-shadow .15s;
+    position:fixed;bottom:0;left:0;right:0;z-index:9990;
+    background:#252526;border-top:1px solid #3e3e42;
+    height:56px;align-items:stretch;
   }
-  .mob-cp-fab:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,122,204,.6)}
-  .mob-cp-fab:active{transform:scale(.96)}
+  .mob-nav-item{
+    flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:3px;color:var(--dim);font-family:var(--sans);font-size:9px;
+    border:none;background:transparent;transition:color .15s,background .15s;
+    padding:6px 2px;
+  }
+  .mob-nav-item:active{background:rgba(255,255,255,.06)}
+  .mob-nav-item.active{color:#fff}
+  .mob-nav-item svg,.mob-nav-item span.ico{font-size:18px;line-height:1}
+  .mob-nav-item.cop{color:var(--pur)}
+  .mob-nav-item.cop.active{color:var(--pur)}
+  /* Push page content above nav */
+  .pane{padding-bottom:70px!important}
+
+  /* Experience bullets — allow wrapping on mobile */
+  .expbuls li strong{white-space:normal!important}
+  .expbuls li{font-size:12.5px;line-height:1.8;gap:6px}
+  .expentry{flex-direction:row;gap:12px}
+  .exptl{padding-top:4px}
+  .expdesc{font-size:13px;line-height:1.75}
+  /* Fix all white-space:nowrap elements on mobile */
+  .biobox span,.biobox strong,.hdesc strong,
+  .fitem strong,.fitem span,
+  #pane-exp span[style*="color"],#pane-exp strong,
+  #pane-about span[style*="color"],#pane-about strong,
+  .expdesc span,.expdesc strong,.expbd strong{white-space:normal!important}
+
 }
-@media(min-width:641px){
-  .mob-cp-fab{display:none!important}
-}
+@media(min-width:641px){.mob-nav{display:none!important}}
 </style>
 </head>
 <body>
@@ -921,12 +941,11 @@ kbd{font-size:10px;background:#555;padding:1px 5px;border-radius:3px;color:#ccc;
               <div class="expco">@ Deloitte USI</div>
               <div class="expdesc">Designed and deployed production-grade AI-integrated systems — from agentic data pipelines to ML-powered anomaly detection — serving enterprise clients at scale.</div>
               <ul class="expbuls">
-                <li>Agentic data pipelines (Python + Kafka): <strong>10K+ events/sec</strong>, &lt;200ms latency</li>
-                <li>ML anomaly detection: accuracy <strong>↑ 63%</strong>, false positives <strong>↓ 45%</strong></li>
-                <li>Microservices refactor of payment gateway: production errors <strong>↓ 63%</strong></li>
-                <li>Event-driven notification services: latency <strong>↓ 74%</strong> for 1000+ enterprise users</li>
-                <li>Docker + Jenkins CI/CD; Grafana + Prometheus observability</li>
-                <li>LLM tooling (GitHub Copilot): code quality <strong>↑ 40%</strong> — 🏆 <strong>Top Performer Award</strong></li>
+                <li>Built agentic data pipelines using Python and Kafka, processing <strong>10K+ events/sec</strong> at under 200ms latency</li>
+                <li>Developed ML anomaly detection models that improved accuracy by <strong>63%</strong> and reduced false positives by <strong>45%</strong></li>
+                <li>Refactored payment gateway microservices, cutting production errors by <strong>63%</strong> and latency by <strong>74%</strong> for 1,000+ enterprise users</li>
+                <li>Set up Docker + Jenkins CI/CD with Grafana and Prometheus for full observability</li>
+                <li>Integrated GitHub Copilot LLM tooling to boost code quality by <strong>40%</strong> — earned 🏆 <strong>Top Performer Award</strong></li>
               </ul>
               <div class="expchips"><span class="expchip">Python</span><span class="expchip">FastAPI</span><span class="expchip">Kafka</span><span class="expchip">Docker</span><span class="expchip">Jenkins</span><span class="expchip">Grafana</span><span class="expchip">AWS</span><span class="expchip">LangChain</span><span class="expchip">Salesforce LWC</span></div>
             </div>
@@ -939,11 +958,11 @@ kbd{font-size:10px;background:#555;padding:1px 5px;border-radius:3px;color:#ccc;
               <div class="expco">@ Deloitte USI</div>
               <div class="expdesc">Built full-stack applications and ML systems impacting 13,000+ users, migrating 40,000+ records and enabling measurable productivity gains across enterprise clients.</div>
               <ul class="expbuls">
-                <li>Salesforce + React web app: workflow delays <strong>↓ 66%</strong> for <strong>13,000+ users</strong></li>
-                <li>ML recommendation engines (scikit-learn): engagement <strong>↑ 35–40%</strong></li>
-                <li>ETL pipelines: migrated <strong>40,000+ records</strong>, manual effort <strong>↓ 50%</strong></li>
-                <li>RESTful auth APIs: login failures <strong>↓ 35%</strong></li>
-                <li>Real-time model inference APIs: <strong>&lt;150ms</strong> response</li>
+                <li>Built a Salesforce and React web app that reduced workflow delays by <strong>66%</strong> for <strong>13,000+ users</strong></li>
+                <li>Designed ML recommendation engines using scikit-learn, boosting user engagement by <strong>35–40%</strong></li>
+                <li>Engineered ETL pipelines to migrate <strong>40,000+ records</strong>, reducing manual effort by <strong>50%</strong></li>
+                <li>Built RESTful auth APIs that cut login failures by <strong>35%</strong></li>
+                <li>Delivered real-time model inference APIs with under <strong>150ms</strong> response time</li>
               </ul>
               <div class="expchips"><span class="expchip">Python</span><span class="expchip">React</span><span class="expchip">scikit-learn</span><span class="expchip">Salesforce</span><span class="expchip">REST APIs</span><span class="expchip">Node.js</span><span class="expchip">MySQL</span><span class="expchip">PostgreSQL</span></div>
             </div>
@@ -1108,7 +1127,6 @@ kbd{font-size:10px;background:#555;padding:1px 5px;border-radius:3px;color:#ccc;
       <div class="cpprow">
         <div class="cpptitle"><span style="color:var(--pur);white-space:nowrap">✦</span>Sanika's AI Assistant</div>
         <div class="cppctls">
-          <button class="cppbtn" title="Edit">✏</button>
           <button class="cppbtn" onclick="toggleCp()" title="Close">×</button>
         </div>
       </div>
@@ -1751,12 +1769,44 @@ const TW_PHRASES=['Building scalable backend systems ⚡','ML & AI engineering a
 let twIdx=0,twChar=0,twDeleting=false;
 function typeWriter(){const el=document.getElementById('typewriter');if(!el)return;const phrase=TW_PHRASES[twIdx];if(!twDeleting){el.textContent=phrase.slice(0,++twChar);if(twChar===phrase.length){twDeleting=true;setTimeout(typeWriter,2000);return;}setTimeout(typeWriter,55);}else{el.textContent=phrase.slice(0,--twChar);if(twChar===0){twDeleting=false;twIdx=(twIdx+1)%TW_PHRASES.length;setTimeout(typeWriter,400);return;}setTimeout(typeWriter,28);}}
 setTimeout(typeWriter,800);
+
+function mobNav(id){
+  document.querySelectorAll('.mob-nav-item').forEach(b=>b.classList.remove('active'));
+  const el=document.getElementById('mn-'+id);
+  if(el) el.classList.add('active');
+}
 </script>
 
-<!-- Mobile Copilot FAB -->
-<button class="mob-cp-fab" onclick="toggleCp()" aria-label="Open Copilot">
-  <span style="font-size:16px">✦</span>
-  <span>Ask Copilot</span>
-</button>
+<!-- Mobile Bottom Nav -->
+<nav class="mob-nav">
+  <button class="mob-nav-item active" id="mn-home" onclick="go('home');mobNav('home')">
+    <span class="ico">🏠</span>
+    <span>Home</span>
+  </button>
+  <button class="mob-nav-item" id="mn-about" onclick="go('about');mobNav('about')">
+    <span class="ico">👤</span>
+    <span>About</span>
+  </button>
+  <button class="mob-nav-item" id="mn-projects" onclick="go('projects');mobNav('projects')">
+    <span class="ico">🚀</span>
+    <span>Projects</span>
+  </button>
+  <button class="mob-nav-item" id="mn-skills" onclick="go('skills');mobNav('skills')">
+    <span class="ico">⚡</span>
+    <span>Skills</span>
+  </button>
+  <button class="mob-nav-item" id="mn-exp" onclick="go('exp');mobNav('exp')">
+    <span class="ico">💼</span>
+    <span>Experience</span>
+  </button>
+  <button class="mob-nav-item" id="mn-contact" onclick="go('contact');mobNav('contact')">
+    <span class="ico">✉</span>
+    <span>Contact</span>
+  </button>
+  <button class="mob-nav-item cop" id="mn-cop" onclick="toggleCp()">
+    <span class="ico">✦</span>
+    <span>Copilot</span>
+  </button>
+</nav>
 </body>
 </html>
