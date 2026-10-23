@@ -1767,7 +1767,7 @@ CONTACT: dhavansanika@gmail.com | (213) 796-2509 | linkedin.com/in/sanikadhavan 
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
-        model:'llama-3.1-8b-instant',
+        model:'openai/gpt-oss-20b',
         messages:[
           {role:'system',content:sys},
           ...cpHistory.slice(0,-1).filter(m=>m.role&&m.content),
