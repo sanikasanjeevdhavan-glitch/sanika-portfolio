@@ -1,3 +1,4 @@
+<script defer src="/_vercel/insights/script.js"></script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1725,17 +1726,29 @@ STRICT RULES — never break these:
 - No ** markdown, no bullet points, plain conversational English
 - Be warm and enthusiastic, especially with recruiters
 
-ABOUT SANIKA: Software Engineer with 3+ years experience. MS CS at USC (GPA 3.75, graduating May 2027). Based in Los Angeles. Co-op at LA Photo Party, part-time SDE at USC Dornsife. Seeking full-time Forward Deployed Engineer, AI Engineer, and SDE roles from May 2027.
+ABOUT SANIKA: Software Engineer with 3+ years of industry experience. MS in Computer Science at USC (GPA 3.75/4.0, graduating May 2027), based in Los Angeles. Seeking full-time Forward Deployed Engineer, AI Engineer, and SDE roles from May 2027.
 
-EXPERIENCE:
-- SWE II at Deloitte USI (Jun 2024–Aug 2025): Agentic data pipelines with Python+Kafka at 10K+ events/sec, <200ms. ML anomaly detection accuracy +63%, false positives -45%. Cut production errors 63%, latency 74% for 1000+ users. Won Top Performer Award.
-- SWE I at Deloitte USI (Sep 2021–Jun 2024): Salesforce+React for 13,000+ users (66% faster). ML engines boosted engagement 35-40%. Migrated 40,000+ records. Real-time inference APIs at <150ms.
+EDUCATION:
+- USC: MS Computer Science, GPA 3.75/4.0 (Aug 2025–May 2027). Coursework: Analysis of Algorithms, Database Systems, Software Engineering, Agentic AI, Applied NLP.
+- University of Mumbai: B.Tech Computer Engineering, GPA 9.01/10.0 (Jun 2017–Jun 2021). Coursework: Data Structures & Algorithms, Distributed Systems, Computer Networks, OOP.
 
-PROJECTS: LLM Developer Assistant (LangChain+OpenAI+FastAPI), Netflix-Style Recommender (87% accuracy, <200ms), Spotify Playlist Builder (FastAPI+React), Smart Medicare Chatbot (87% acc, 99.7% uptime), Streaming Quality Optimizer, Budget Buddy.
+WORK EXPERIENCE:
+- LA Photo Party — SDE Co-op (Jun 2026–Jan 2027, Los Angeles): Optimized C#/.NET kiosk app with UI virtualization, caching, and async loading — cut image load latency by 65%. Debugged payment failures end-to-end, reducing payment failure rate by 80%. Built Python Stable Diffusion pipeline for real-time AI photo overlays in under 3s. Launched Hugging Face AI filter for text-prompted photo restyling, boosting user engagement by 27%.
+- USC Dornsife Technology Services — Part-Time SDE (Apr 2026–Dec 2026, Los Angeles): Enhanced 4 production apps in ColdFusion, JavaScript, SQL Server for bookings/payments serving 10,000+ users. Built async AJAX event-logging service, automating usage reports saving 5 hrs/week. Enforced reservation conflict checks in 9 ColdFusion modules, cutting booking conflicts by 87% across 100+ rooms. Reduced overbooking by 64% with live AJAX booking hour limits. Resolved 10+ production bugs, reducing support tickets by 33%.
+- Deloitte USI — Senior SDE (Jun 2024–Aug 2025, Mumbai): Led payment gateway migration on Apex, DynamoDB, AWS EKS — cut error rate 63% and latency 74%. Designed DynamoDB idempotency layer for exact-once payment reversal with zero discrepancies. Orchestrated event-driven approval workflows for 1,000+ users with Salesforce Platform Events. Automated testing and Terraform/Helm IaC in CI/CD, reducing regression defects by 43%. Mentored 3 junior engineers. Won Top Performer Award (2023) and Applause Award (2024).
+- Deloitte USI — SDE (Sep 2021–Jun 2024, Mumbai): Built React+TypeScript Experience Cloud app with LWC for 13,000+ users, reducing processing time by 66%. Migrated 40,000+ Oracle records via SQL-validated ETL with zero downtime. Strengthened OAuth 2.0 login flows, lowering auth failure rate by 35%. Integrated OpenTelemetry tracing, reducing on-call escalations by 78%.
 
-SKILLS: Python, JS/TS, Java, Go, SQL, LangChain, OpenAI, PyTorch, TensorFlow, scikit-learn, FastAPI, Flask, Kafka, Spring Boot, React, Node, AWS, Docker, Jenkins, GitHub Actions, MySQL, PostgreSQL, MongoDB, Grafana, Prometheus, Salesforce Health Cloud Certified + Admin Certified.
+PROJECTS:
+- OpsPilot – RAG Incident Triage Assistant (2026): Serverless Python RAG on AWS Lambda, Bedrock, LangGraph. Boosted retrieval recall@5 from 62% to 87% using hybrid BM25 + vector search in OpenSearch with reranking. Reduced hallucinated answers by 48% with citation verification and GitHub Actions evaluation gate.
+- ReviewPilot – Multi-Agent Code Review Platform (2026): Event-driven Spring Boot service on AWS ECS Fargate with AI code-review agents on SQS and Redis. Raised review precision from 58% to 78% across 150 labeled PRs using Spring AI grounded in static analysis.
 
-CONTACT: dhavansanika@gmail.com | (213) 796-2509 | dhavan@usc.edu | linkedin.com/in/sanikadhavan`;
+SKILLS: Languages: Java, Python, TypeScript, JavaScript, Apex, C#, Go, SQL. Cloud/DevOps: AWS (EKS, ECS, Lambda, S3, SQS, DynamoDB, CDK), Docker, Kubernetes, Terraform, Helm, CI/CD. Backend/Data: Spring Boot, React, .NET, ColdFusion, REST APIs, Kafka, PostgreSQL, MS SQL Server, Redis. AI/Observability: LangGraph, LangChain, Spring AI, RAG, Amazon Bedrock, Hugging Face, GitHub Copilot, OpenTelemetry.
+
+CERTIFICATIONS: Salesforce Certified Administrator and Platform Developer I.
+
+EXTRACURRICULARS: Deputy Director of Sponsorship, Association of Indian Students at USC (Sep 2025–May 2027). Creative Head, Computer Society of India, University of Mumbai (Jun 2018–May 2019).
+
+CONTACT: dhavansanika@gmail.com | (213) 796-2509 | linkedin.com/in/sanikadhavan | project-7hzc6.vercel.app`;
 
   // Build full messages array with history
   const apiMessages=[
@@ -1754,7 +1767,7 @@ CONTACT: dhavansanika@gmail.com | (213) 796-2509 | dhavan@usc.edu | linkedin.com
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
-        model:'openai/gpt-oss-20b',
+        model:'llama-3.1-8b-instant',
         messages:[
           {role:'system',content:sys},
           ...cpHistory.slice(0,-1).filter(m=>m.role&&m.content),
@@ -1772,23 +1785,28 @@ CONTACT: dhavansanika@gmail.com | (213) 796-2509 | dhavan@usc.edu | linkedin.com
     if(btxtEl){btxtEl.classList.remove('typ');btxtEl.textContent=capTxt;}
     cpHistory.push({role:'assistant',content:capTxt});
 
-    // Show follow-up suggestion chips after each answer
-    const followUps=[
+    // Show follow-up suggestion chips after each answer (hide already-asked ones)
+    const allFollowUps=[
       "What's her tech stack?","Tell me about her projects",
-      "What's she looking for?","Tell me about Deloitte experience"
+      "What's she looking for?","Tell me about Deloitte experience",
+      "What's her GPA?","Is she open to relocation?"
     ];
-    const chipWrap=document.createElement('div');
-    chipWrap.style.cssText='display:flex;flex-wrap:wrap;gap:6px;padding:4px 0 0 36px';
-    followUps.forEach(q=>{
-      const ch=document.createElement('span');
-      ch.textContent=q;
-      ch.style.cssText='font-size:10.5px;font-family:var(--mono);color:#4ec9b0;border:1px solid #4ec9b0;padding:3px 9px;border-radius:10px;cursor:pointer;opacity:.75;transition:opacity .15s';
-      ch.onmouseenter=()=>ch.style.opacity='1';
-      ch.onmouseleave=()=>ch.style.opacity='.75';
-      ch.onclick=()=>cpAsk(q);
-      chipWrap.appendChild(ch);
-    });
-    msgs.appendChild(chipWrap);
+    const askedQs=cpHistory.filter(m=>m.role==='user').map(m=>m.content.trim().toLowerCase());
+    const remaining=allFollowUps.filter(q=>!askedQs.includes(q.toLowerCase()));
+    if(remaining.length>0){
+      const chipWrap=document.createElement('div');
+      chipWrap.style.cssText='display:flex;flex-wrap:wrap;gap:5px;padding:6px 0 0 36px';
+      remaining.slice(0,4).forEach(q=>{
+        const ch=document.createElement('span');
+        ch.textContent=q;
+        ch.style.cssText='font-size:10px;font-family:var(--mono);color:var(--dim);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);padding:3px 10px;border-radius:3px;cursor:pointer;transition:all .15s';
+        ch.onmouseenter=()=>{ch.style.color='var(--tx)';ch.style.borderColor='rgba(255,255,255,.3)';ch.style.background='rgba(255,255,255,.07)'};
+        ch.onmouseleave=()=>{ch.style.color='var(--dim)';ch.style.borderColor='rgba(255,255,255,.12)';ch.style.background='rgba(255,255,255,.04)'};
+        ch.onclick=()=>cpAsk(q);
+        chipWrap.appendChild(ch);
+      });
+      msgs.appendChild(chipWrap);
+    }
   }catch(err){
     const btxtEl2=document.getElementById(uid);
     if(btxtEl2){
